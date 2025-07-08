@@ -163,12 +163,12 @@ export default function Analytics() {
             <div className="text-center">
               <div className="text-2xl font-bold text-yellow-500">{analytics.riskDistribution.medio}</div>
               <div className="text-sm text-muted-foreground">Médio Risco</div>
-              <div className="text-xs text-muted-foreground">0.3 < Score ≤ 0.7</div>
+              <div className="text-xs text-muted-foreground">0.3 &lt; Score ≤ 0.7</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-red-500">{analytics.riskDistribution.alto}</div>
               <div className="text-sm text-muted-foreground">Alto Risco</div>
-              <div className="text-xs text-muted-foreground">Score > 0.7</div>
+              <div className="text-xs text-muted-foreground">Score &gt; 0.7</div>
             </div>
           </div>
         </CardContent>
