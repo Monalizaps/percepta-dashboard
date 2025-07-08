@@ -1,13 +1,30 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from 'react';
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from '../components/layout/AppSidebar';
+import Dashboard from './Dashboard';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <SidebarProvider collapsedWidth={56}>
+      {/* Global header with trigger */}
+      <header className="h-14 flex items-center border-b border-border bg-background/80 backdrop-blur-sm px-4 sticky top-0 z-50">
+        <SidebarTrigger className="mr-4" />
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 bg-gradient-primary rounded flex items-center justify-center">
+            <span className="text-xs font-bold text-white">P</span>
+          </div>
+          <span className="font-semibold text-foreground">Percepta Dashboard</span>
+        </div>
+      </header>
+
+      <div className="flex min-h-screen w-full">
+        <AppSidebar />
+        <main className="flex-1 overflow-hidden">
+          <Dashboard />
+        </main>
       </div>
-    </div>
+    </SidebarProvider>
   );
 };
 
