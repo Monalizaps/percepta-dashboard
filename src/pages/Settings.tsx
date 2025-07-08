@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Settings, Bell, Shield, Database, Palette, Save } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { BackButton } from '@/components/ui/back-button';
 import { useToast } from '@/hooks/use-toast';
 
 export default function SettingsPage() {
@@ -22,7 +22,6 @@ export default function SettingsPage() {
   });
 
   const handleSave = () => {
-    // Simulação de salvamento das configurações
     localStorage.setItem('percepta-settings', JSON.stringify(settings));
     toast({
       title: "Configurações salvas!",
@@ -49,6 +48,9 @@ export default function SettingsPage() {
 
   return (
     <div className="space-y-6 p-6">
+      {/* Back Button */}
+      <BackButton />
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>

@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { Shield, Search, Filter, Download, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { BackButton } from '@/components/ui/back-button';
 import { AnomalyTable } from '../components/dashboard/AnomalyTable';
 import { useAnomalies } from '../hooks/useAnomalies';
 
@@ -49,6 +49,9 @@ export default function Anomalies() {
 
   return (
     <div className="space-y-6 p-6">
+      {/* Back Button */}
+      <BackButton />
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>

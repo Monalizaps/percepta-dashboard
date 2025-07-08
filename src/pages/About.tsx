@@ -1,9 +1,9 @@
-
 import React from 'react';
 import { Info, Shield, BarChart3, Users, Github, Globe } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { BackButton } from '@/components/ui/back-button';
 
 export default function About() {
   const features = [
@@ -36,6 +36,9 @@ export default function About() {
 
   return (
     <div className="space-y-6 p-6">
+      {/* Back Button */}
+      <BackButton />
+
       {/* Header */}
       <div className="text-center space-y-4">
         <div className="w-16 h-16 bg-gradient-primary rounded-lg flex items-center justify-center mx-auto">

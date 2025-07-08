@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { BarChart3, TrendingUp, PieChart, Calendar } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { BackButton } from '@/components/ui/back-button';
 import { AnomalyChart } from '../components/dashboard/AnomalyChart';
 import { useAnomalies } from '../hooks/useAnomalies';
 
@@ -64,7 +64,7 @@ export default function Analytics() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary/30 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-16 h-16 border-4 border-primary/30 border-t-primary rounded-full mx-auto mb-4"></div>
           <h2 className="text-xl font-semibold text-foreground">Carregando Análises</h2>
           <p className="text-muted-foreground">Processando dados...</p>
         </div>
@@ -74,6 +74,9 @@ export default function Analytics() {
 
   return (
     <div className="space-y-6 p-6">
+      {/* Back Button */}
+      <BackButton />
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
