@@ -6,7 +6,7 @@ import Dashboard from './Dashboard';
 
 const Index = () => {
   return (
-    <SidebarProvider collapsedWidth={56}>
+    <SidebarProvider>
       {/* Global header with trigger */}
       <header className="h-14 flex items-center border-b border-border bg-background/80 backdrop-blur-sm px-4 sticky top-0 z-50">
         <SidebarTrigger className="mr-4" />

@@ -11,7 +11,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
   useSidebar,
 } from '@/components/ui/sidebar';
 
@@ -24,12 +23,12 @@ const menuItems = [
 ];
 
 export function AppSidebar() {
-  const { collapsed } = useSidebar();
+  const { state } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
+  const collapsed = state === 'collapsed';
 
   const isActive = (path: string) => currentPath === path;
-  const isExpanded = menuItems.some((item) => isActive(item.url));
 
   const getNavClass = ({ isActive }: { isActive: boolean }) =>
     isActive 
@@ -39,7 +38,7 @@ export function AppSidebar() {
   return (
     <Sidebar
       className={`${collapsed ? "w-14" : "w-60"} transition-all duration-300`}
-      collapsible
+      collapsible="icon"
     >
       <SidebarContent className="bg-sidebar-background border-r border-sidebar-border">
         {/* Header */}
@@ -57,7 +56,7 @@ export function AppSidebar() {
           </div>
         </div>
 
-        <SidebarGroup open={isExpanded}>
+        <SidebarGroup>
           <SidebarGroupLabel className="text-sidebar-foreground/70">
             Navegação
           </SidebarGroupLabel>
