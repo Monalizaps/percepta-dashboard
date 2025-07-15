@@ -31,7 +31,7 @@ export const AnomalyChart: React.FC<AnomalyChartProps> = ({
     
     // Count anomalies for each hour
     anomalies.forEach(anomaly => {
-      const anomalyTime = new Date(anomaly.login_time);
+      const anomalyTime = new Date(anomaly.timestamp);
       const hourIndex = hours.findIndex(h => {
         const hourTime = new Date();
         hourTime.setHours(h.hour, 0, 0, 0);

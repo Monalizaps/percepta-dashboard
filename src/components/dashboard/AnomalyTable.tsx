@@ -1,11 +1,10 @@
-
 import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { ChevronUp, ChevronDown, Download, Search, Filter } from 'lucide-react';
+import { ChevronUp, ChevronDown, Download, Search } from 'lucide-react';
 import { Anomaly } from '../../types/anomaly';
 
 interface AnomalyTableProps {
@@ -16,7 +15,7 @@ type SortField = keyof Anomaly;
 type SortDirection = 'asc' | 'desc';
 
 export const AnomalyTable: React.FC<AnomalyTableProps> = ({ anomalies }) => {
-  const [sortField, setSortField] = useState<SortField>('login_time');
+  const [sortField, setSortField] = useState<SortField>('timestamp'); // timestamp agora
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -34,7 +33,7 @@ export const AnomalyTable: React.FC<AnomalyTableProps> = ({ anomalies }) => {
   const filteredAndSortedAnomalies = useMemo(() => {
     let filtered = anomalies.filter(anomaly =>
       Object.values(anomaly).some(value =>
-        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
       )
     );
 
@@ -42,21 +41,20 @@ export const AnomalyTable: React.FC<AnomalyTableProps> = ({ anomalies }) => {
       let aValue = a[sortField];
       let bValue = b[sortField];
 
-      // Handle date sorting
-      if (sortField === 'login_time') {
+      // Date sorting
+      if (sortField === 'timestamp') {
         aValue = new Date(aValue as string).getTime();
         bValue = new Date(bValue as string).getTime();
       }
 
-      // Handle numeric sorting
+      // Numeric sorting
       if (typeof aValue === 'number' && typeof bValue === 'number') {
         return sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
       }
 
-      // Handle string sorting
-      const aStr = aValue.toString().toLowerCase();
-      const bStr = bValue.toString().toLowerCase();
-      
+      // String sorting
+      const aStr = aValue?.toString().toLowerCase() ?? '';
+      const bStr = bValue?.toString().toLowerCase() ?? '';
       if (sortDirection === 'asc') {
         return aStr.localeCompare(bStr);
       } else {
@@ -75,18 +73,17 @@ export const AnomalyTable: React.FC<AnomalyTableProps> = ({ anomalies }) => {
   const totalPages = Math.ceil(filteredAndSortedAnomalies.length / itemsPerPage);
 
   const exportToCsv = () => {
-    const headers = ['ID', 'User ID', 'Timestamp', 'IP Address', 'Location', 'Device', 'Action', 'Score', 'Top Feature', 'Message'];
+    const headers = ['User ID', 'Timestamp', 'IP Address', 'Location', 'Device', 'Action', 'Score', 'Top Feature', 'Message'];
     const csvContent = [
       headers.join(','),
       ...filteredAndSortedAnomalies.map(anomaly => [
-        anomaly.id,
         anomaly.user_id,
-        new Date(anomaly.login_time).toLocaleString('pt-BR'),
+        new Date(anomaly.timestamp).toLocaleString('pt-BR'),
         anomaly.ip_address,
         `"${anomaly.location}"`,
         `"${anomaly.device}"`,
         anomaly.action,
-        anomaly.score,
+        anomaly.score.toFixed(2),
         `"${anomaly.top_feature}"`,
         `"${anomaly.message}"`
       ].join(','))
@@ -103,9 +100,9 @@ export const AnomalyTable: React.FC<AnomalyTableProps> = ({ anomalies }) => {
     if (score > 0.7) {
       return <Badge variant="destructive">Alto Risco</Badge>;
     } else if (score > 0.4) {
-      return <Badge className="bg-yellow-600">Médio Risco</Badge>;
+      return <Badge className="bg-yellow-600 text-black">Médio Risco</Badge>; // cor custom
     } else {
-      return <Badge className="bg-green-600">Baixo Risco</Badge>;
+      return <Badge variant="outline">Baixo Risco</Badge>;
     }
   };
 
@@ -141,15 +138,7 @@ export const AnomalyTable: React.FC<AnomalyTableProps> = ({ anomalies }) => {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead 
-                  className="cursor-pointer hover:bg-muted/50 select-none"
-                  onClick={() => handleSort('id')}
-                >
-                  <div className="flex items-center gap-1">
-                    ID <SortIcon field="id" />
-                  </div>
-                </TableHead>
-                <TableHead 
+                <TableHead
                   className="cursor-pointer hover:bg-muted/50 select-none"
                   onClick={() => handleSort('user_id')}
                 >
@@ -157,32 +146,18 @@ export const AnomalyTable: React.FC<AnomalyTableProps> = ({ anomalies }) => {
                     User ID <SortIcon field="user_id" />
                   </div>
                 </TableHead>
-                <TableHead 
+                <TableHead
                   className="cursor-pointer hover:bg-muted/50 select-none"
-                  onClick={() => handleSort('login_time')}
+                  onClick={() => handleSort('timestamp')}
                 >
                   <div className="flex items-center gap-1">
-                    Timestamp <SortIcon field="login_time" />
+                    Timestamp <SortIcon field="timestamp" />
                   </div>
                 </TableHead>
-                <TableHead 
-                  className="cursor-pointer hover:bg-muted/50 select-none"
-                  onClick={() => handleSort('ip_address')}
-                >
-                  <div className="flex items-center gap-1">
-                    IP Address <SortIcon field="ip_address" />
-                  </div>
-                </TableHead>
-                <TableHead 
-                  className="cursor-pointer hover:bg-muted/50 select-none"
-                  onClick={() => handleSort('location')}
-                >
-                  <div className="flex items-center gap-1">
-                    Location <SortIcon field="location" />
-                  </div>
-                </TableHead>
+                <TableHead>IP Address</TableHead>
+                <TableHead>Location</TableHead>
                 <TableHead>Device</TableHead>
-                <TableHead 
+                <TableHead
                   className="cursor-pointer hover:bg-muted/50 select-none"
                   onClick={() => handleSort('action')}
                 >
@@ -190,7 +165,7 @@ export const AnomalyTable: React.FC<AnomalyTableProps> = ({ anomalies }) => {
                     Action <SortIcon field="action" />
                   </div>
                 </TableHead>
-                <TableHead 
+                <TableHead
                   className="cursor-pointer hover:bg-muted/50 select-none"
                   onClick={() => handleSort('score')}
                 >
@@ -205,11 +180,13 @@ export const AnomalyTable: React.FC<AnomalyTableProps> = ({ anomalies }) => {
             </TableHeader>
             <TableBody>
               {paginatedAnomalies.map((anomaly) => (
-                <TableRow key={anomaly.id} className="hover:bg-muted/30">
-                  <TableCell className="font-mono text-sm">{anomaly.id}</TableCell>
+                <TableRow
+                  key={`${anomaly.user_id}-${anomaly.timestamp}`}
+                  className="hover:bg-muted/30"
+                >
                   <TableCell className="font-medium">{anomaly.user_id}</TableCell>
                   <TableCell className="font-mono text-sm">
-                    {new Date(anomaly.login_time).toLocaleString('pt-BR')}
+                    {new Date(anomaly.timestamp).toLocaleString('pt-BR')}
                   </TableCell>
                   <TableCell className="font-mono text-sm">{anomaly.ip_address}</TableCell>
                   <TableCell>{anomaly.location}</TableCell>
@@ -218,22 +195,18 @@ export const AnomalyTable: React.FC<AnomalyTableProps> = ({ anomalies }) => {
                     <Badge variant="outline">{anomaly.action}</Badge>
                   </TableCell>
                   <TableCell className="font-mono text-sm">
-                    {anomaly.score.toFixed(2)}
-                  </TableCell>
-                  <TableCell>
-                    {getSeverityBadge(anomaly.score)}
-                  </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
-                    {anomaly.top_feature}
-                  </TableCell>
+  {Number(anomaly.score)?.toFixed(2) ?? 'N/A'}
+</TableCell>
+                  <TableCell>{getSeverityBadge(anomaly.score)}</TableCell>
+                  <TableCell className="text-sm text-muted-foreground">{anomaly.top_feature}</TableCell>
                   <TableCell className="text-sm">{anomaly.message}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </div>
-        
-        {/* Pagination */}
+
+        {/* Paginação */}
         {totalPages > 1 && (
           <div className="flex justify-between items-center mt-4">
             <div className="text-sm text-muted-foreground">

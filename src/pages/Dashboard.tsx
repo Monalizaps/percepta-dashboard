@@ -1,18 +1,39 @@
-
 import React, { useState } from 'react';
 import { Activity, Shield, AlertTriangle, MapPin, RefreshCw } from 'lucide-react';
 import { StatCard } from '../components/dashboard/StatCard';
 import { AnomalyChart } from '../components/dashboard/AnomalyChart';
 import { AnomalyTable } from '../components/dashboard/AnomalyTable';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { useAnomalies } from '../hooks/useAnomalies';
 import { useToast } from '@/hooks/use-toast';
 
 export default function Dashboard() {
   const [filters, setFilters] = useState({});
-  const { anomalies, stats, loading, error, refetch } = useAnomalies(filters);
+  const { anomalies, loading, error, refetch } = useAnomalies(filters);
   const { toast } = useToast();
+
+  // Calcula estatísticas com base no array anomalies
+  const stats = React.useMemo(() => {
+    if (!anomalies || anomalies.length === 0) {
+      return { total: 0, recent: 0, high_risk: 0, locations: 0 };
+    }
+
+    const now = new Date();
+    const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
+    const total = anomalies.length;
+    const recent = anomalies.filter(a => new Date(a.timestamp) >= oneDayAgo).length;
+    const high_risk = anomalies.filter(a => a.score > 0.7).length;
+    const uniqueLocations = new Set(anomalies.map(a => a.location)).size;
+
+    return {
+      total,
+      recent,
+      high_risk,
+      locations: uniqueLocations,
+    };
+  }, [anomalies]);
 
   const handleRefresh = async () => {
     toast({
@@ -22,7 +43,7 @@ export default function Dashboard() {
     await refetch();
     toast({
       title: "Dados atualizados!",
-      description: `${stats.total} anomalias carregadas com sucesso.`,
+      description: `${stats.total.toLocaleString()} anomalias carregadas com sucesso.`,
     });
   };
 
@@ -78,28 +99,24 @@ export default function Dashboard() {
           value={stats.total.toLocaleString()}
           description="Detectadas no sistema"
           icon={Shield}
-          trend={{ value: 12, isPositive: false }}
         />
         <StatCard
           title="Anomalias Recentes"
           value={stats.recent}
           description="Últimas 24 horas"
           icon={Activity}
-          trend={{ value: 8, isPositive: true }}
         />
         <StatCard
           title="Alto Risco"
           value={stats.high_risk}
           description="Score > 0.7"
           icon={AlertTriangle}
-          trend={{ value: 5, isPositive: false }}
         />
         <StatCard
           title="Localizações"
           value={stats.locations}
           description="Diferentes origens"
           icon={MapPin}
-          trend={{ value: 3, isPositive: true }}
         />
       </div>
 

@@ -28,7 +28,7 @@ export default function Analytics() {
 
     const rangeMs = timeRangeMs[timeRange as keyof typeof timeRangeMs];
     const filteredAnomalies = anomalies.filter(anomaly => 
-      new Date(anomaly.login_time).getTime() > now.getTime() - rangeMs
+      new Date(anomaly.timestamp).getTime() > now.getTime() - rangeMs
     );
 
     const locationStats = filteredAnomalies.reduce((acc, anomaly) => {

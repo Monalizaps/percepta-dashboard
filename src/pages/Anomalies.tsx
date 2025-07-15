@@ -23,7 +23,7 @@ export default function Anomalies() {
     const csvContent = "data:text/csv;charset=utf-8," + 
       "ID,User ID,Timestamp,IP Address,Location,Device,Action,Score,Top Feature,Message\n" +
       filteredAnomalies.map(row => 
-        `${row.id},${row.user_id},${row.login_time},${row.ip_address},${row.location},${row.device},${row.action},${row.score},${row.top_feature},${row.message}`
+        `${row.id},${row.user_id},${row.timestamp},${row.ip_address},${row.location},${row.device},${row.action},${row.score},${row.top_feature},${row.message}`
       ).join("\n");
     
     const encodedUri = encodeURI(csvContent);
