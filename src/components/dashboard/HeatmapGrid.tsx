@@ -16,8 +16,8 @@ export function HeatmapGrid({ projects }: HeatmapGridProps) {
   return (
     <Card className="border-border/70 bg-gradient-to-br from-card/95 via-card/80 to-card/70 shadow-[0_20px_80px_-50px_rgba(0,0,0,0.9)]">
       <CardHeader>
-        <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Risk Heatmap</p>
-        <CardTitle className="text-xl text-foreground">Concentração de risco por ativo</CardTitle>
+        <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Mapa de Calor de Risco</p>
+        <CardTitle className="text-xl text-foreground">Concentração de Risco por Ativo</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
@@ -33,15 +33,15 @@ export function HeatmapGrid({ projects }: HeatmapGridProps) {
               <div className="grid grid-cols-3 gap-2">
                 <div className="rounded-xl bg-black/20 p-3 text-center">
                   <div className="text-lg font-semibold text-rose-300">{project.criticals}</div>
-                  <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Critical</div>
+                  <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Crítica</div>
                 </div>
                 <div className="rounded-xl bg-black/20 p-3 text-center">
                   <div className="text-lg font-semibold text-amber-300">{project.highs}</div>
-                  <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">High</div>
+                  <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Alta</div>
                 </div>
                 <div className="rounded-xl bg-black/20 p-3 text-center">
                   <div className="text-lg font-semibold text-cyan-300">{project.mediums}</div>
-                  <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Medium</div>
+                  <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">Média</div>
                 </div>
               </div>
             </div>

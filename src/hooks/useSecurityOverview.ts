@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Capability, OverviewResponse, SecurityOverview } from '@/types/security';
 
-const API_BASE_URL = import.meta.env.VITE_PERCEPTA_API_URL ?? 'http://localhost:8080/api/v1';
-const WS_URL = import.meta.env.VITE_PERCEPTA_WS_URL ?? 'ws://localhost:8080/ws';
+const API_BASE_URL = import.meta.env.VITE_PERCEPTA_API_URL ?? 'http://localhost:9090/api/v1';
+const WS_URL = import.meta.env.VITE_PERCEPTA_WS_URL ?? 'ws://localhost:9090/ws';
 
 const emptyOverview: SecurityOverview = {
   projects: [],

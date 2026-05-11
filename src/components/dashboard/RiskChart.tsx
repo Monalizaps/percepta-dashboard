@@ -16,8 +16,8 @@ export function RiskChart({ projects }: RiskChartProps) {
   return (
     <Card className="border-border/70 bg-gradient-to-br from-card/95 via-card/80 to-card/70 shadow-[0_20px_80px_-50px_rgba(0,0,0,0.9)]">
       <CardHeader>
-        <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Security Risk Index</p>
-        <CardTitle className="text-xl text-foreground">SRI por ativo e variação recente</CardTitle>
+        <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Índice de Risco de Segurança</p>
+        <CardTitle className="text-xl text-foreground">SRI por Ativo e Variação Recente</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={320}>

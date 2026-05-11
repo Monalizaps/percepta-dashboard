@@ -27,8 +27,8 @@ export function EventTimeline({ events }: EventTimelineProps) {
   return (
     <Card className="border-border/70 bg-gradient-to-br from-card/95 via-card/80 to-card/70 shadow-[0_20px_80px_-50px_rgba(0,0,0,0.9)]">
       <CardHeader>
-        <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Event Timeline</p>
-        <CardTitle className="text-xl text-foreground">Eventos recentes e movimentos de risco</CardTitle>
+        <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Timeline de Eventos</p>
+        <CardTitle className="text-xl text-foreground">Eventos Recentes e Movimentos de Risco</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {events.map((event) => (

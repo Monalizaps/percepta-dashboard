@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ExternalLink, FolderGit2, Plus, RefreshCw, Shield, Trash2 } from 'lucide-react';
+import { ArrowLeft, ExternalLink, FolderGit2, Plus, RefreshCw, Shield, Trash2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/layout/AppSidebar';
@@ -149,6 +149,14 @@ export default function Dashboards() {
         <AppSidebar />
         <main className="flex-1 overflow-hidden">
           <div className="space-y-6 p-6">
+            <Link
+              to="/"
+              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Voltar ao Overview
+            </Link>
+
             <div>
               <p className="text-xs uppercase tracking-[0.28em] text-cyan-300 mb-1">Project Dashboards</p>
               <h1 className="text-3xl font-semibold text-foreground">Projetos Monitorados</h1>

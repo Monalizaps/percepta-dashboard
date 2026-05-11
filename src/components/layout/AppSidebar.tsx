@@ -15,10 +15,10 @@ import {
 } from '@/components/ui/sidebar';
 
 const menuItems = [
-  { title: 'Overview', url: '/', icon: Shield },
-  { title: 'Findings', url: '/anomalies', icon: Sparkles },
-  { title: 'Metrics', url: '/analytics', icon: LineChart },
-  { title: 'Dashboards', url: '/dashboards', icon: FolderGit2 },
+  { title: 'Visão Geral', url: '/', icon: Shield },
+  { title: 'Vulnerabilidades', url: '/anomalies', icon: Sparkles },
+  { title: 'Métricas', url: '/analytics', icon: LineChart },
+  { title: 'Projetos', url: '/dashboards', icon: FolderGit2 },
   { title: 'Configurações', url: '/settings', icon: Settings },
   { title: 'Sobre', url: '/about', icon: Info },
 ];
@@ -38,7 +38,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar
-      className={`${collapsed ? "w-14" : "w-60"} transition-all duration-300`}
+      className={`${collapsed ? "w-14" : "w-60"} transition-all duration-300 flex-shrink-0`}
       collapsible="icon"
     >
       <SidebarContent className="bg-sidebar-background border-r border-sidebar-border">

@@ -11,8 +11,8 @@ import { useToast } from '@/hooks/use-toast';
 export default function SettingsPage() {
   const { toast } = useToast();
   const [settings, setSettings] = useState({
-    apiUrl: 'http://localhost:8080/api/v1',
-    websocketUrl: 'ws://localhost:8080/ws',
+    apiUrl: 'http://localhost:9090/api/v1',
+    websocketUrl: 'ws://localhost:9090/ws',
     refreshInterval: 30,
     enableNotifications: true,
     enableAutoRefresh: true,
@@ -32,8 +32,8 @@ export default function SettingsPage() {
 
   const handleReset = () => {
     setSettings({
-      apiUrl: 'http://localhost:8080/api/v1',
-      websocketUrl: 'ws://localhost:8080/ws',
+      apiUrl: 'http://localhost:9090/api/v1',
+      websocketUrl: 'ws://localhost:9090/ws',
       refreshInterval: 30,
       enableNotifications: true,
       enableAutoRefresh: true,

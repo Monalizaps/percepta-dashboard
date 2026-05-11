@@ -7,10 +7,12 @@ import { EventTimeline } from '../components/dashboard/EventTimeline';
 import { FindingsTable } from '../components/dashboard/FindingsTable';
 import { HeatmapGrid } from '../components/dashboard/HeatmapGrid';
 import { InsightsPanel } from '../components/dashboard/InsightsPanel';
+import { InsightsHighlight } from '../components/dashboard/InsightsHighlight';
 import { RealtimeStatus } from '../components/dashboard/RealtimeStatus';
 import { RiskCard } from '../components/dashboard/RiskCard';
 import { RiskChart } from '../components/dashboard/RiskChart';
 import { RiskTicker } from '../components/dashboard/RiskTicker';
+import { VulnerabilityTicker } from '../components/dashboard/VulnerabilityTicker';
 import { useSecurityOverview } from '../hooks/useSecurityOverview';
 import { useToast } from '@/hooks/use-toast';
 
@@ -45,11 +47,11 @@ export default function Dashboard({ initialTab = 'overview' }: DashboardProps) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-16 h-16 border-4 border-primary/30 border-t-primary rounded-full animate-spin mx-auto mb-4"></div>
-          <h2 className="text-xl font-semibold text-foreground">Carregando Security Intelligence Layer</h2>
-          <p className="text-muted-foreground">Sincronizando overview, findings e telemetria em tempo real...</p>
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5">
+        <div className="text-center space-y-4">
+          <div className="w-20 h-20 border-4 border-primary/20 border-t-primary rounded-full animate-spin mx-auto"></div>
+          <h2 className="text-2xl font-bold text-foreground">Carregando Percepta</h2>
+          <p className="text-muted-foreground max-w-sm">Sincronizando dados de segurança, normalizando vulnerabilidades e calculando riscos...</p>
         </div>
       </div>
     );
@@ -83,137 +85,143 @@ export default function Dashboard({ initialTab = 'overview' }: DashboardProps) {
   }
 
   return (
-    <div className="space-y-6 p-6">
-      <div className="grid gap-6 xl:grid-cols-[1.3fr_0.7fr]">
-        <div>
-          <p className="mb-3 text-xs uppercase tracking-[0.28em] text-cyan-300">Security Intelligence Layer</p>
-          <h1 className="max-w-3xl text-3xl font-semibold leading-tight text-foreground md:text-5xl">
-            Cockpit de risco desacoplado de ferramenta, com leitura multi-fonte e foco em tendência.
-          </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-muted-foreground">
-            O Percepta opera acima de GitLab, security dashboards internos, PostgreSQL, APIs externas e AppSec tools, normalizando tudo para um modelo interno único.
-          </p>
-          <div className="mt-6">
-            <RiskTicker projects={overview.projects} />
-          </div>
-        </div>
-        <div className="flex flex-col items-start gap-4 rounded-3xl border border-border/70 bg-black/20 p-5 backdrop-blur-sm">
-          <RealtimeStatus status={connectionStatus} lastUpdated={lastUpdated} />
-          <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">Maior pressão de risco</p>
-            <p className="mt-2 font-mono text-3xl uppercase tracking-[0.18em] text-foreground">{topProject?.project ?? 'N/A'}</p>
-            <p className="mt-2 text-sm text-muted-foreground">
-              SRI {topProject?.score.toFixed(1) ?? '0.0'} com variação de {topProject?.deltaPercent.toFixed(1) ?? '0.0'}%.
+    <div className="w-full max-w-full overflow-x-hidden">
+      <div className="space-y-6 p-4 sm:p-6 lg:p-8">
+        <div className="grid gap-6 grid-cols-1 lg:grid-cols-[1.3fr_0.7fr]">
+          <div className="space-y-4 min-w-0">
+            <p className="text-xs uppercase tracking-[0.28em] text-cyan-300">Camada de Inteligência de Segurança</p>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight text-foreground break-words">
+              Percepta Dashboard
+            </h1>
+            <p className="text-sm leading-relaxed text-muted-foreground max-w-2xl">
+              Percepta opera acima de GitLab, dashboards de segurança, PostgreSQL, APIs externas e ferramentas AppSec, normalizando tudo para um modelo único.
             </p>
-          </div>
-          <Button onClick={handleRefresh} variant="outline" className="gap-2 border-border/70 bg-background/50">
-            <RefreshCw className="h-4 w-4" />
-            Atualizar Snapshot
-          </Button>
-        </div>
-      </div>
-
-      {error && (
-        <Card className="border-destructive/50 bg-destructive/10">
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-destructive" />
-              <div>
-                <h3 className="font-semibold text-destructive">Erro de Conexão</h3>
-                <p className="text-sm text-muted-foreground">
-                  {error} — Verifique se o servidor está rodando em localhost:9090.
-                </p>
-              </div>
+            <div className="mt-4">
+              <RiskTicker projects={overview.projects} />
             </div>
-          </CardContent>
-        </Card>
-      )}
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <RiskCard
-          title="Ativos Monitorados"
-          value={stats.assets.toLocaleString()}
-          description="Projetos agregados de múltiplas fontes no mesmo schema interno."
-          icon={Layers3}
-        />
-        <RiskCard
-          title="Exposure Hotspots"
-          value={stats.criticalExposure.toLocaleString()}
-          description="Ativos internet-facing com SRI acima de 70."
-          icon={Globe}
-          tone="danger"
-        />
-        <RiskCard
-          title="Findings Normalizados"
-          value={stats.findings.toLocaleString()}
-          description="Itens consolidados e independentes do schema de origem."
-          icon={Siren}
-          tone="warning"
-        />
-        <RiskCard
-          title="SRI Médio"
-          value={stats.averageRisk.toFixed(1)}
-          description="Índice médio de risco calculado em tempo real."
-          icon={Gauge}
-          delta={topProject?.deltaPercent}
-          tone={stats.averageRisk >= 70 ? 'danger' : stats.averageRisk >= 50 ? 'warning' : 'positive'}
-        />
-      </div>
-
-      <Tabs defaultValue={initialTab} className="space-y-6">
-        <TabsList className="grid h-auto w-full grid-cols-2 gap-2 rounded-2xl border border-border/70 bg-black/20 p-2 md:grid-cols-4">
-          <TabsTrigger value="overview" className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Overview</TabsTrigger>
-          <TabsTrigger value="findings" className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Findings</TabsTrigger>
-          <TabsTrigger value="metrics" className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Metrics</TabsTrigger>
-          <TabsTrigger value="insights" className="rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Percepta Insights</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="overview" className="space-y-6">
-          <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
-            <RiskChart projects={overview.projects} />
-            <EventTimeline events={overview.events.slice(0, 4)} />
           </div>
-        </TabsContent>
+          <div className="flex flex-col items-start gap-4 rounded-3xl border border-border/70 bg-black/20 p-6 backdrop-blur-sm min-w-0">
+            <RealtimeStatus status={connectionStatus} lastUpdated={lastUpdated} />
+            <div className="w-full min-w-0">
+              <p className="text-xs uppercase tracking-[0.22em] text-muted-foreground">Maior Pressão de Risco</p>
+              <p className="mt-2 font-mono text-2xl lg:text-3xl uppercase tracking-[0.18em] text-foreground truncate">{topProject?.project ?? 'N/A'}</p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                SRI {topProject?.score.toFixed(1) ?? '0.0'} com variação de {topProject?.deltaPercent.toFixed(1) ?? '0.0'}%.
+              </p>
+            </div>
+            <Button onClick={handleRefresh} variant="outline" className="gap-2 border-border/70 bg-background/50 w-full">
+              <RefreshCw className="h-4 w-4" />
+              Atualizar Snapshot
+            </Button>
+          </div>
+        </div>
 
-        <TabsContent value="findings">
-          <FindingsTable findings={overview.findings} />
-        </TabsContent>
-
-        <TabsContent value="metrics" className="space-y-6">
-          <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
-            <HeatmapGrid projects={overview.projects} />
-            <Card className="border-border/70 bg-gradient-to-br from-card/95 via-card/80 to-card/70 shadow-[0_20px_80px_-50px_rgba(0,0,0,0.9)]">
-              <CardContent className="flex h-full flex-col justify-center gap-4 p-6">
-                <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Realtime Pipeline</p>
-                <h3 className="text-2xl font-semibold text-foreground">Novo finding → normalização → recalcular score → snapshot → websocket</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">
-                  A camada de métricas foi preparada para Redis Streams, snapshots temporais e atualização automática no frontend sem acoplamento ao sistema de origem.
-                </p>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-2xl border border-border/70 bg-black/20 p-4">
-                    <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Top Trend</p>
-                    <p className="mt-2 text-xl font-semibold text-foreground">{topProject?.project ?? 'N/A'}</p>
-                    <p className="text-sm text-rose-300">{topProject?.deltaPercent.toFixed(1) ?? '0.0'}% no período</p>
-                  </div>
-                  <div className="rounded-2xl border border-border/70 bg-black/20 p-4">
-                    <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Risk Direction</p>
-                    <p className="mt-2 text-xl font-semibold text-foreground">{overview.projects.filter((project) => project.trend === 'up').length} ativos em alta</p>
-                    <p className="text-sm text-muted-foreground">{overview.projects.length} ativos agregados</p>
-                  </div>
+        {error && (
+          <Card className="border-destructive/50 bg-destructive/10">
+            <CardContent className="pt-6">
+              <div className="flex items-start gap-3">
+                <AlertTriangle className="h-5 w-5 text-destructive flex-shrink-0 mt-0.5" />
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-destructive">Erro de Conexão</h3>
+                  <p className="text-sm text-muted-foreground mt-1 break-words">
+                    {error} — Verifique se o servidor está rodando em localhost:9090.
+                  </p>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
-        <TabsContent value="insights" className="space-y-6">
-          <InsightsPanel insights={overview.insights} capabilities={futureCapabilities} />
-          <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
-            <EventTimeline events={overview.events} />
-            <RiskChart projects={[...overview.projects].sort((left, right) => right.deltaPercent - left.deltaPercent)} />
-          </div>
-        </TabsContent>
-      </Tabs>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <RiskCard
+            title="Ativos Monitorados"
+            value={stats.assets.toLocaleString()}
+            description="Projetos agregados de múltiplas fontes"
+            icon={Layers3}
+          />
+          <RiskCard
+            title="Exposição Crítica"
+            value={stats.criticalExposure.toLocaleString()}
+            description="Ativos internet-facing com SRI > 70"
+            icon={Globe}
+            tone="danger"
+          />
+          <RiskCard
+            title="Vulnerabilidades"
+            value={stats.findings.toLocaleString()}
+            description="Itens consolidados e normalizados"
+            icon={Siren}
+            tone="warning"
+          />
+          <RiskCard
+            title="SRI Médio"
+            value={stats.averageRisk.toFixed(1)}
+            description="Índice médio de risco em tempo real"
+            icon={Gauge}
+            delta={topProject?.deltaPercent}
+            tone={stats.averageRisk >= 70 ? 'danger' : stats.averageRisk >= 50 ? 'warning' : 'positive'}
+          />
+        </div>
+
+        <InsightsHighlight insights={overview.insights} />
+
+        <VulnerabilityTicker projects={overview.projects} />
+
+        <Tabs defaultValue={initialTab} className="space-y-6">
+          <TabsList className="grid h-auto w-full grid-cols-2 sm:grid-cols-4 gap-2 rounded-2xl border border-border/70 bg-black/20 p-2">
+            <TabsTrigger value="overview" className="rounded-lg text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Visão Geral</TabsTrigger>
+            <TabsTrigger value="findings" className="rounded-lg text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Vulnerabilidades</TabsTrigger>
+            <TabsTrigger value="metrics" className="rounded-lg text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Métricas</TabsTrigger>
+            <TabsTrigger value="insights" className="rounded-lg text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">Insights IA</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="overview" className="space-y-6">
+            <div className="grid gap-6 grid-cols-1 lg:grid-cols-[1.1fr_0.9fr]">
+              <RiskChart projects={overview.projects} />
+              <EventTimeline events={overview.events.slice(0, 4)} />
+            </div>
+          </TabsContent>
+
+          <TabsContent value="findings">
+            <FindingsTable findings={overview.findings} />
+          </TabsContent>
+
+          <TabsContent value="metrics" className="space-y-6">
+            <div className="grid gap-6 grid-cols-1 lg:grid-cols-[1.1fr_0.9fr]">
+              <HeatmapGrid projects={overview.projects} />
+              <Card className="border-border/70 bg-gradient-to-br from-card/95 via-card/80 to-card/70 shadow-[0_20px_80px_-50px_rgba(0,0,0,0.9)]">
+                <CardContent className="flex h-full flex-col justify-center gap-4 p-6">
+                  <p className="text-xs uppercase tracking-[0.24em] text-muted-foreground">Pipeline em Tempo Real</p>
+                  <h3 className="text-lg md:text-xl font-semibold text-foreground">Novo finding → normalização → recalcular score → snapshot → websocket</h3>
+                  <p className="text-sm leading-relaxed text-muted-foreground">
+                    A camada de métricas foi preparada para Redis Streams, snapshots temporais e atualização automática no frontend sem acoplamento ao sistema de origem.
+                  </p>
+                  <div className="grid gap-3 grid-cols-2">
+                    <div className="rounded-2xl border border-border/70 bg-black/20 p-4">
+                      <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Tendência Principal</p>
+                      <p className="mt-2 text-xl font-semibold text-foreground truncate">{topProject?.project ?? 'N/A'}</p>
+                      <p className="text-sm text-rose-300">{topProject?.deltaPercent.toFixed(1) ?? '0.0'}% no período</p>
+                    </div>
+                    <div className="rounded-2xl border border-border/70 bg-black/20 p-4">
+                      <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Direção do Risco</p>
+                      <p className="mt-2 text-xl font-semibold text-foreground">{overview.projects.filter((project) => project.trend === 'up').length} ativos</p>
+                      <p className="text-sm text-muted-foreground">em alta</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="insights" className="space-y-6">
+            <InsightsPanel insights={overview.insights} capabilities={futureCapabilities} />
+            <div className="grid gap-6 grid-cols-1 lg:grid-cols-[0.95fr_1.05fr]">
+              <EventTimeline events={overview.events} />
+              <RiskChart projects={[...overview.projects].sort((left, right) => right.deltaPercent - left.deltaPercent)} />
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }
