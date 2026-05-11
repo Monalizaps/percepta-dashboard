@@ -8,6 +8,10 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    proxy: {
+      '/api': 'http://localhost:9090',
+      '/ws': { target: 'ws://localhost:9090', ws: true },
+    },
   },
   plugins: [
     react(),

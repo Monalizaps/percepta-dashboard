@@ -1,4 +1,6 @@
 
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,87 +11,86 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 220 15% 6%;
-    --foreground: 280 20% 95%;
+    --background: 214 34% 7%;
+    --foreground: 190 40% 96%;
 
-    --card: 220 18% 8%;
-    --card-foreground: 280 15% 92%;
+    --card: 215 29% 10%;
+    --card-foreground: 190 32% 94%;
 
-    --popover: 220 18% 8%;
-    --popover-foreground: 280 15% 92%;
+    --popover: 215 29% 10%;
+    --popover-foreground: 190 32% 94%;
 
-    --primary: 270 80% 65%;
-    --primary-foreground: 280 10% 10%;
+    --primary: 186 92% 56%;
+    --primary-foreground: 214 45% 8%;
 
-    --secondary: 220 20% 12%;
-    --secondary-foreground: 280 10% 85%;
+    --secondary: 215 28% 15%;
+    --secondary-foreground: 190 24% 86%;
 
-    --muted: 220 20% 10%;
-    --muted-foreground: 280 10% 65%;
+    --muted: 214 26% 12%;
+    --muted-foreground: 202 16% 62%;
 
-    --accent: 290 70% 60%;
-    --accent-foreground: 280 10% 10%;
+    --accent: 38 95% 61%;
+    --accent-foreground: 214 45% 8%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 25% 15%;
-    --input: 220 25% 15%;
-    --ring: 270 80% 65%;
+    --border: 214 22% 19%;
+    --input: 214 22% 19%;
+    --ring: 186 92% 56%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 220 18% 7%;
-    --sidebar-foreground: 280 15% 88%;
-    --sidebar-primary: 270 80% 65%;
-    --sidebar-primary-foreground: 280 10% 10%;
-    --sidebar-accent: 220 20% 12%;
-    --sidebar-accent-foreground: 280 10% 85%;
-    --sidebar-border: 220 25% 15%;
-    --sidebar-ring: 270 80% 65%;
+    --sidebar-background: 214 37% 8%;
+    --sidebar-foreground: 190 28% 88%;
+    --sidebar-primary: 186 92% 56%;
+    --sidebar-primary-foreground: 214 45% 8%;
+    --sidebar-accent: 214 22% 14%;
+    --sidebar-accent-foreground: 190 20% 85%;
+    --sidebar-border: 214 24% 18%;
+    --sidebar-ring: 186 92% 56%;
 
-    /* Custom gradient variables */
-    --gradient-primary: linear-gradient(135deg, hsl(270, 80%, 65%) 0%, hsl(240, 90%, 70%) 50%, hsl(320, 85%, 75%) 100%);
-    --gradient-secondary: linear-gradient(135deg, hsl(220, 25%, 8%) 0%, hsl(250, 35%, 12%) 50%, hsl(280, 30%, 10%) 100%);
-    --gradient-accent: linear-gradient(90deg, hsl(270, 80%, 65%) 0%, hsl(290, 70%, 60%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(186, 92%, 56%) 0%, hsl(199, 85%, 58%) 52%, hsl(38, 95%, 61%) 100%);
+    --gradient-secondary: radial-gradient(circle at top left, hsl(196, 85%, 18%) 0%, hsl(214, 38%, 10%) 38%, hsl(224, 46%, 7%) 100%);
+    --gradient-accent: linear-gradient(90deg, hsl(38, 95%, 61%) 0%, hsl(11, 85%, 61%) 100%);
   }
 
   .dark {
-    --background: 220 15% 6%;
-    --foreground: 280 20% 95%;
+    --background: 214 34% 7%;
+    --foreground: 190 40% 96%;
 
-    --card: 220 18% 8%;
-    --card-foreground: 280 15% 92%;
+    --card: 215 29% 10%;
+    --card-foreground: 190 32% 94%;
 
-    --popover: 220 18% 8%;
-    --popover-foreground: 280 15% 92%;
+    --popover: 215 29% 10%;
+    --popover-foreground: 190 32% 94%;
 
-    --primary: 270 80% 65%;
-    --primary-foreground: 280 10% 10%;
+    --primary: 186 92% 56%;
+    --primary-foreground: 214 45% 8%;
 
-    --secondary: 220 20% 12%;
-    --secondary-foreground: 280 10% 85%;
+    --secondary: 215 28% 15%;
+    --secondary-foreground: 190 24% 86%;
 
-    --muted: 220 20% 10%;
-    --muted-foreground: 280 10% 65%;
+    --muted: 214 26% 12%;
+    --muted-foreground: 202 16% 62%;
 
-    --accent: 290 70% 60%;
-    --accent-foreground: 280 10% 10%;
+    --accent: 38 95% 61%;
+    --accent-foreground: 214 45% 8%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 220 25% 15%;
-    --input: 220 25% 15%;
-    --ring: 270 80% 65%;
-    --sidebar-background: 220 18% 7%;
-    --sidebar-foreground: 280 15% 88%;
-    --sidebar-primary: 270 80% 65%;
-    --sidebar-primary-foreground: 280 10% 10%;
-    --sidebar-accent: 220 20% 12%;
-    --sidebar-accent-foreground: 280 10% 85%;
-    --sidebar-border: 220 25% 15%;
-    --sidebar-ring: 270 80% 65%;
+    --border: 214 22% 19%;
+    --input: 214 22% 19%;
+    --ring: 186 92% 56%;
+    --sidebar-background: 214 37% 8%;
+    --sidebar-foreground: 190 28% 88%;
+    --sidebar-primary: 186 92% 56%;
+    --sidebar-primary-foreground: 214 45% 8%;
+    --sidebar-accent: 214 22% 14%;
+    --sidebar-accent-foreground: 190 20% 85%;
+    --sidebar-border: 214 24% 18%;
+    --sidebar-ring: 186 92% 56%;
   }
 }
 
@@ -101,7 +102,14 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
     background: var(--gradient-secondary);
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
     min-height: 100vh;
+  }
+
+  code,
+  pre,
+  .font-mono {
+    font-family: 'IBM Plex Mono', monospace;
   }
 }
 

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { BarChart3, Settings, Info, Home, Shield, RefreshCw } from 'lucide-react';
+import { FolderGit2, Info, LineChart, RefreshCw, Settings, Shield, Sparkles } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   Sidebar,
@@ -15,9 +15,10 @@ import {
 } from '@/components/ui/sidebar';
 
 const menuItems = [
-  { title: 'Dashboard', url: '/', icon: Home },
-  { title: 'Anomalias', url: '/anomalies', icon: Shield },
-  { title: 'Análises', url: '/analytics', icon: BarChart3 },
+  { title: 'Overview', url: '/', icon: Shield },
+  { title: 'Findings', url: '/anomalies', icon: Sparkles },
+  { title: 'Metrics', url: '/analytics', icon: LineChart },
+  { title: 'Dashboards', url: '/dashboards', icon: FolderGit2 },
   { title: 'Configurações', url: '/settings', icon: Settings },
   { title: 'Sobre', url: '/about', icon: Info },
 ];
@@ -50,7 +51,7 @@ export function AppSidebar() {
             {!collapsed && (
               <div>
                 <h1 className="text-lg font-bold text-gradient">Percepta</h1>
-                <p className="text-xs text-sidebar-foreground/70">Anomaly Detection</p>
+                <p className="text-xs text-sidebar-foreground/70">Security Intelligence</p>
               </div>
             )}
           </div>
@@ -88,7 +89,7 @@ export function AppSidebar() {
           <div className="mt-auto p-4 border-t border-sidebar-border">
             <div className="flex items-center gap-2 text-xs text-sidebar-foreground/50">
               <RefreshCw className="h-3 w-3 animate-spin" />
-              <span>Auto-refresh: 5min</span>
+              <span>Realtime: websocket + polling</span>
             </div>
           </div>
         )}

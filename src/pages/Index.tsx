@@ -11,10 +11,13 @@ const Index = () => {
       <header className="h-14 flex items-center border-b border-border bg-background/80 backdrop-blur-sm px-4 sticky top-0 z-50">
         <SidebarTrigger className="mr-4" />
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-gradient-primary rounded flex items-center justify-center">
+          <div className="w-6 h-6 bg-gradient-primary rounded flex items-center justify-center shadow-[0_10px_30px_-10px_rgba(13,211,255,0.8)]">
             <span className="text-xs font-bold text-white">P</span>
           </div>
-          <span className="font-semibold text-foreground">Percepta Dashboard</span>
+          <div>
+            <span className="font-semibold text-foreground">Percepta</span>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Security Intelligence Layer</p>
+          </div>
         </div>
       </header>
 

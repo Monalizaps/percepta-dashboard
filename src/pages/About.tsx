@@ -1,37 +1,35 @@
 import React from 'react';
-import { Info, Shield, BarChart3, Users, Github, Globe } from 'lucide-react';
+import { Activity, Cpu, Database, Info, Layers3, Radio, Workflow } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { BackButton } from '@/components/ui/back-button';
 
 export default function About() {
   const features = [
     {
-      icon: Shield,
-      title: 'Detecção de Anomalias',
-      description: 'Sistema avançado de machine learning para identificar comportamentos suspeitos em tempo real.'
+      icon: Layers3,
+      title: 'Camada de Inteligência',
+      description: 'O Percepta fica acima dos sistemas existentes e consolida risco sem substituir dashboards já adotados.'
     },
     {
-      icon: BarChart3,
-      title: 'Análises Detalhadas',
-      description: 'Gráficos e métricas abrangentes para entender padrões e tendências de segurança.'
+      icon: Activity,
+      title: 'Risco em Tempo Real',
+      description: 'Score SRI, ticker, heatmap e timeline tornam tendência e aceleração visíveis imediatamente.'
     },
     {
-      icon: Users,
-      title: 'Interface Intuitiva',
-      description: 'Dashboard moderno e responsivo projetado para profissionais de segurança.'
+      icon: Workflow,
+      title: 'Arquitetura Plugável',
+      description: 'Connectors, normalizers e storage desacoplados permitem integrar novas fontes sem contaminar o core.'
     }
   ];
 
   const technologies = [
-    'React 18', 'TypeScript', 'Tailwind CSS', 'Shadcn/ui', 
-    'Recharts', 'React Query', 'Lucide Icons', 'Vite'
-  ];
-
-  const team = [
-    { name: 'Equipe Percepta', role: 'Desenvolvimento e Pesquisa', avatar: 'P' },
-    { name: 'AI Assistant', role: 'Assistente de Desenvolvimento', avatar: 'AI' },
+    'Go + Fiber para API e websocket',
+    'PostgreSQL como store relacional e read replicas',
+    'Redis Streams para snapshots e realtime fan-out',
+    'React + TypeScript + Tailwind + Recharts no cockpit',
+    'OpenTelemetry para observabilidade enterprise',
+    'NATS ou Kafka apenas se volume/eventos crescerem muito'
   ];
 
   return (
@@ -41,15 +39,15 @@ export default function About() {
 
       {/* Header */}
       <div className="text-center space-y-4">
-        <div className="w-16 h-16 bg-gradient-primary rounded-lg flex items-center justify-center mx-auto">
-          <Shield className="h-8 w-8 text-white" />
+        <div className="w-16 h-16 bg-gradient-primary rounded-lg flex items-center justify-center mx-auto shadow-[0_20px_60px_-30px_rgba(13,211,255,0.8)]">
+          <Layers3 className="h-8 w-8 text-white" />
         </div>
-        <h1 className="text-4xl font-bold text-gradient">Percepta Dashboard</h1>
+        <h1 className="text-4xl font-bold text-gradient">Percepta Security Intelligence Layer</h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-          Sistema avançado de detecção e visualização de anomalias para segurança digital
+          Plataforma modular para normalizar dados de segurança, calcular risco em tempo real e entregar insights prontos para embed
         </p>
         <Badge variant="outline" className="text-sm">
-          Versão 1.0.0
+          Versão 2.0.0 foundation
         </Badge>
       </div>
 
@@ -63,15 +61,14 @@ export default function About() {
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-muted-foreground leading-relaxed">
-            O Percepta Dashboard é uma aplicação web moderna desenvolvida para visualizar e analisar 
-            anomalias detectadas por sistemas de segurança. Utilizando tecnologias de ponta e uma 
-            interface elegante, oferece aos profissionais de segurança uma ferramenta poderosa para 
-            monitoramento em tempo real.
+            O Percepta v2 foi redesenhado para atuar como camada de inteligência acima de GitLab SaaS,
+            dashboards internos, bancos PostgreSQL, APIs externas e ferramentas AppSec. Em vez de depender
+            do schema original de cada fonte, ele converte tudo para modelos internos padronizados.
           </p>
           <p className="text-muted-foreground leading-relaxed">
-            Com foco na usabilidade e performance, o dashboard apresenta dados complexos de forma 
-            clara e acionável, permitindo resposta rápida a ameaças potenciais e análise detalhada 
-            de padrões de comportamento.
+            A direção arquitetural prioriza conectores plugáveis, normalização explícita, cálculo de risco
+            em tempo real, histórico temporal, websocket e preparação para agentes de IA sem ativar ainda
+            um stack pesado de inteligência artificial.
           </p>
         </CardContent>
       </Card>
@@ -99,67 +96,49 @@ export default function About() {
       {/* Technologies */}
       <Card>
         <CardHeader>
-          <CardTitle>Tecnologias Utilizadas</CardTitle>
+          <CardTitle className="flex items-center gap-2"><Cpu className="h-5 w-5" />Tecnologias Recomendadas</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-wrap gap-2">
+          <div className="grid gap-3 md:grid-cols-2">
             {technologies.map((tech, index) => (
-              <Badge key={index} variant="secondary">
+              <div key={index} className="rounded-2xl border border-border/70 bg-card/40 p-4 text-sm text-muted-foreground">
                 {tech}
-              </Badge>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Team */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Equipe de Desenvolvimento</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {team.map((member, index) => (
-              <div key={index} className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center">
-                  <span className="text-sm font-bold text-white">{member.avatar}</span>
-                </div>
-                <div>
-                  <p className="font-medium">{member.name}</p>
-                  <p className="text-sm text-muted-foreground">{member.role}</p>
-                </div>
               </div>
             ))}
           </div>
         </CardContent>
       </Card>
 
-      {/* Links */}
       <Card>
         <CardHeader>
-          <CardTitle>Links Úteis</CardTitle>
+          <CardTitle className="flex items-center gap-2"><Database className="h-5 w-5" />Integrações-alvo</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-wrap gap-3">
-            <Button variant="outline" className="gap-2">
-              <Github className="h-4 w-4" />
-              Repositório
-            </Button>
-            <Button variant="outline" className="gap-2">
-              <Globe className="h-4 w-4" />
-              Documentação
-            </Button>
-            <Button variant="outline" className="gap-2">
-              <Info className="h-4 w-4" />
-              Suporte
-            </Button>
+          <div className="flex flex-wrap gap-2">
+            {['GitLab SaaS', 'Security Dashboards internos', 'PostgreSQL/read replica', 'APIs externas', 'Snyk/AppSec', 'Sistemas host com aba Percepta Insights'].map((item) => (
+              <Badge key={item} variant="outline" className="border-border/70 px-3 py-1 text-sm">
+                {item}
+              </Badge>
+            ))}
           </div>
         </CardContent>
       </Card>
 
-      {/* Footer */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2"><Radio className="h-5 w-5" />Direção de plataforma</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3 text-sm text-muted-foreground">
+            <p className="rounded-2xl border border-border/70 bg-card/40 p-4">Vite continua adequado para este estágio porque entrega SPA rápida, embed simples e baixo custo de evolução. Se SSR, auth federada complexa ou distribuição por múltiplos tenants virarem prioridade, Next.js passa a ser uma migração defensável.</p>
+            <p className="rounded-2xl border border-border/70 bg-card/40 p-4">Para enterprise observability, vale adicionar OpenTelemetry, feature flags e tracing por connector antes de introduzir IA mais sofisticada.</p>
+            <p className="rounded-2xl border border-border/70 bg-card/40 p-4">Para conectores com alta cardinalidade ou ingestão quase contínua, um barramento como NATS JetStream tende a ser mais simples que Kafka no início, mantendo caminho de crescimento claro.</p>
+          </div>
+        </CardContent>
+      </Card>
+
       <div className="text-center text-sm text-muted-foreground">
-        <p>© 2024 Percepta Dashboard. Desenvolvido com ❤️ para segurança digital.</p>
+        <p>© 2026 Percepta. Security Intelligence Layer para crescimento modular e embedding enterprise.</p>
       </div>
     </div>
   );

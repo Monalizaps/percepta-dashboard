@@ -31,7 +31,7 @@ export const AnomalyTable: React.FC<AnomalyTableProps> = ({ anomalies }) => {
   };
 
   const filteredAndSortedAnomalies = useMemo(() => {
-    let filtered = anomalies.filter(anomaly =>
+    const filtered = anomalies.filter(anomaly =>
       Object.values(anomaly).some(value =>
         value?.toString().toLowerCase().includes(searchTerm.toLowerCase())
       )
